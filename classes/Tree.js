@@ -18,7 +18,7 @@ export class Tree {
         return root;
     }
 
-    prettyPrint(node, prefix = '', isLeft = true) {
+    prettyPrint(node = this.root, prefix = '', isLeft = true) {
         if (node === null) {
             return;
         }
@@ -164,11 +164,7 @@ export class Tree {
             const leftHeight = computeHeight(node.left);
             const rightHeight = computeHeight(node.right);
 
-            if (leftHeight > rightHeight) {
-                return 1 + leftHeight;
-            } else {
-                return 1 + rightHeight;
-            }
+            return 1 + Math.max(leftHeight, rightHeight);
         }
 
         return computeHeight(node);
@@ -198,8 +194,8 @@ export class Tree {
             return true;
         }
 
-        const leftHeight = this.height(node.left.value);
-        const rightHeight = this.height(node.right.value);
+        const leftHeight = node.left ? this.height(node.left.value) : -1;
+        const rightHeight = node.right ? this.height(node.right.value) : -1;
 
         if (Math.abs(leftHeight - rightHeight) > 1) {
             return false;
@@ -252,28 +248,3 @@ const mergeSort = (array) => {
 
     return result;
 }
-
-
-// testing
-const random = [1, 13, 13, 5, 2, 5, 7, 6, 3, 14, 8, 9];
-const tree = new Tree(random);
-console.log(tree);
-
-tree.insert(100);
-tree.remove(5);
-tree.prettyPrint(tree.root);
-console.log(tree.find(14));
-
-console.log("=================================================");
-
-console.log(tree.height(13));
-
-console.log("=================================================");
-
-console.log(tree.depth(13));
-
-console.log("=================================================");
-console.log(tree.isBalanced());
-console.log("=================================================");
-tree.rebalance();
-tree.prettyPrint(tree.root);
